@@ -503,34 +503,6 @@ def chooseFood(listDistance, positionList):
         tList.append(manhattanDistance(secondNearestFood, xy))
     return minList[tList.index(min(tList))]
 
-### secondMin: find second min value in list
-def secondMin(list):
-    m = min(list)
-    newlist = []
-    for x in list:
-        if x != m:
-            newlist.append(x)
-    if newlist == []:
-        return []
-    return min(newlist)
-
-### SminPositionList: give all second min positions
-def SminPositionList(list, foodposition):
-    smin_indiceies = []
-    smin = secondMin(list)
-    for index, element in enumerate(list):
-        if smin == element:
-            smin_indiceies.append(foodposition[index])
-    return smin_indiceies
-
-### choosesFood: choose largest distance food for next food
-def choosesFood(position, list):
-    from util import manhattanDistance
-    listD = []
-    for xy in list:
-        listD.append(manhattanDistance(xy, position))
-    return list[listD.index(max(listD))]
-
 ### getH: give h(n) from start food to rest foods depends on nearest food
 def getH(xy, position, foodPosition):
     from util import manhattanDistance
@@ -589,185 +561,14 @@ def foodHeuristic(state, problem):
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
     foodPositions = foodGrid.asList()
-    ### h(n) = number of left food          expanded node:12517
-    # return len(foodPositions)
-
-    ### h(n) = distance of nearest food + number of rest food      expanded node:10908
-    # from util import manhattanDistance
-    # ListofDistance = []
-    # for xy in foodPositions:
-    #     ListofDistance.append(manhattanDistance(position, xy))
-    # if ListofDistance == []:
-    #     return 0
-    # return min(ListofDistance) +len(foodPositions) -1
-
-    ### h(n) = distance of second nearest food + number of rest food-1     (assume it must pass nearest food before it go to second food). expanded node 10959
-    # from util import manhattanDistance
-    # ListofDistance = []
-    # for xy in foodPositions:
-    #     ListofDistance.append(manhattanDistance(position, xy))
-    # if ListofDistance == []:
-    #     return 0
-    # if len(ListofDistance) == 1:
-    #     return min(ListofDistance)
-    # ListofDistance.remove(min(ListofDistance))
-    # return min(ListofDistance) +len(foodPositions) -2
-
-
-    ### h(n) = distance to nearest food + from second nearest food to third nearest food + 3->4 + 4->5 + and so on. expanded node:7428
-    # from util import manhattanDistance
-    # ListofDistance = []
-    # h = 0
-    # if foodPositions == []:
-    #     return h
-    # for xy in foodPositions:
-    #     ListofDistance.append(manhattanDistance(position, xy))
-    # h = min(ListofDistance)
-    # listOfMin = minPositionList(ListofDistance, foodPositions)
-    # if len(listOfMin)>1:
-    #     removeFood = foodPositions[ListofDistance.index(min(ListofDistance))]
-    #     for tp in listOfMin:
-    #         foodPositions.remove(tp)
-    #     h += len(listOfMin)
-    # else:
-    #     removeFood = foodPositions[ListofDistance.index(min(ListofDistance))]
-    #     foodPositions.remove(removeFood)
     
-    # while foodPositions != []:
-    #     ListofDistance= []
-    #     for txy in foodPositions:
-    #         ListofDistance.append(manhattanDistance(txy, removeFood))
-    #     h += min(ListofDistance)
-    #     listOfMin = minPositionList(ListofDistance, foodPositions)
-    #     if len(listOfMin)>1:
-    #         removeFood = foodPositions[ListofDistance.index(min(ListofDistance))]
-    #         for tp in listOfMin:
-    #             foodPositions.remove(tp)
-    #         h += len(listOfMin)
-    #     else:
-    #         removeFood = foodPositions[ListofDistance.index(min(ListofDistance))]
-    #         foodPositions.remove(removeFood)  
-    # return h
-
-    ### h(n) = distance to nearest food + from second nearest food to third nearest food + 3->4 + 4->5 + and so on. 
-    ### expanded node:5969
-    # from util import manhattanDistance
-    # ListofDistance = []
-    # h = 0
-    # if foodPositions == []:
-    #     return h
-    # for xy in foodPositions:
-    #     ListofDistance.append(manhattanDistance(position, xy))
-    # h = min(ListofDistance)
-    # listOfMin = minPositionList(ListofDistance, foodPositions)
-    # if len(listOfMin)>1:
-    #     removeFood = chooseFood(ListofDistance, foodPositions)
-    # else:
-    #     removeFood = chooseFood(ListofDistance, foodPositions)
-    # foodPositions.remove(removeFood)
-    
-    # while foodPositions != []:
-    #     ListofDistance= []
-    #     for txy in foodPositions:
-    #         ListofDistance.append(manhattanDistance(txy, removeFood))
-    #     h += min(ListofDistance)
-    #     listOfMin = minPositionList(ListofDistance, foodPositions)
-    #     if len(listOfMin)>1:
-    #         removeFood = chooseFood(ListofDistance, foodPositions)
-    #     else:
-    #         removeFood = chooseFood(ListofDistance, foodPositions)
-    #     foodPositions.remove(removeFood)  
-    # return h
-
-
-
     ### h(n) = min(all possible food to nearest food of themselves) expanded node:6677
     h=[]
     for xy in foodPositions:
-        #. getH(xy, position, foodPosition)
         h.append(getH(xy, position, foodPositions))
     if h == []:
         return 0
     return min(h)
-
-
-
-
-    ### h(n) = min(nearestfood to rest of foods, second nearestfood to rest of foods)
-    ### expanded node:6264
-    # from util import manhattanDistance
-    # foodPosition1 = []
-    # foodPosition2 = []
-    # for xy in foodPositions:
-    #     foodPosition1.append(xy)
-    #     foodPosition2.append(xy)
-    # ListofDistance = []
-    # ListofDistance1 = []
-    # ListofDistance2 = []
-    # h1 = 0
-    # h2 = 0
-    # if foodPositions == []:
-    #     return h1
-    # for xy in foodPosition1:
-    #     ListofDistance1.append(manhattanDistance(position, xy))
-    #     ListofDistance2.append(manhattanDistance(position, xy))
-    # h1 = min(ListofDistance1)
-    # listOfMin = minPositionList(ListofDistance1, foodPosition1)
-    # if len(listOfMin)>1:
-    #     removeFood = chooseFood(ListofDistance1, foodPosition1)
-    # else:
-    #     removeFood = chooseFood(ListofDistance1, foodPosition1)
-    # foodPosition1.remove(removeFood)
-    
-    # while foodPosition1 != []:
-    #     ListofDistance= []
-    #     for txy in foodPosition1:
-    #         ListofDistance.append(manhattanDistance(txy, removeFood))
-    #     h1 += min(ListofDistance)
-    #     listOfMin = minPositionList(ListofDistance, foodPosition1)
-    #     if len(listOfMin)>1:
-    #         removeFood = chooseFood(ListofDistance, foodPosition1)
-    #     else:
-    #         removeFood = chooseFood(ListofDistance, foodPosition1)
-    #     foodPosition1.remove(removeFood)
-
-    # # force to choose second nearest distance
-    # if secondMin(ListofDistance2) != []:
-    #     for xy in foodPosition2:
-    #         ListofDistance.append(manhattanDistance(position, xy))
-    #     h2 = secondMin(ListofDistance)  
-    #     listOfsMin = SminPositionList(ListofDistance2, foodPosition2)
-    #     if len(listOfsMin)>1:
-    #         removeFood = choosesFood(position, listOfsMin)
-    #     else:
-    #         removeFood = listOfsMin[0]
-    #     foodPosition2.remove(removeFood)
-
-    #     while foodPosition2 != []:
-    #         ListofDistance= []
-    #         for txy in foodPosition2:
-    #             ListofDistance.append(manhattanDistance(txy, removeFood))
-    #         h2 += min(ListofDistance)
-    #         listOfMin = minPositionList(ListofDistance, foodPosition2)
-    #         if len(listOfMin)>1:
-    #             removeFood = chooseFood(ListofDistance, foodPosition2)
-    #         else:
-    #             removeFood = chooseFood(ListofDistance, foodPosition2)
-    #         foodPosition2.remove(removeFood)
-    #     return min(h1,h2)
-    # else:
-    #     return h1
-
-    
-
-    ### h(n) = number of food nearby                expanded node: 17624
-    # h = 0
-    # x,y = position
-    # for fx in range(x-1, x+1):
-    #     for fy in range(y-1, y+1):
-    #         if (fx, fy) in foodPositions:
-    #             h +=1
-    # return h
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
@@ -798,6 +599,7 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
+        # choose either bfs, dfs, astar or ucs. 
         from search import breadthFirstSearch
         path = breadthFirstSearch(problem)
         return path
@@ -836,9 +638,9 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x,y = state
 
         "*** YOUR CODE HERE ***"
-        isFood = (x,y) in self.food.asList()
+        isGoal = (x,y) in self.food.asList()
 
-        return isFood
+        return isGoal
 
 def mazeDistance(point1, point2, gameState):
     """

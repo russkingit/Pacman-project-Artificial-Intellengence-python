@@ -94,8 +94,7 @@ def depthFirstSearch(problem):
     visited = []
     path = []
     tmpPath = util.Stack()             #store path to each succesor
-    fringe.push(problem.getStartState())
-    currentState = fringe.pop()
+    currentState = problem.getStartState()
     while not problem.isGoalState(currentState):
         if currentState not in visited:
             visited.append(currentState)
@@ -118,8 +117,7 @@ def breadthFirstSearch(problem):
     visited = []
     path = []
     tmpPath = util.Queue()             #store path to each succesor
-    fringe.push(problem.getStartState())
-    currentState = fringe.pop()
+    currentState = problem.getStartState()
     while not problem.isGoalState(currentState):
         if currentState not in visited:
             visited.append(currentState)
